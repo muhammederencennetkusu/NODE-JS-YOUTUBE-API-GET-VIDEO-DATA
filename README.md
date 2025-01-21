@@ -23,6 +23,29 @@
     <li>Google API Key gerekmektedir. YouTube Data API v3 için bir API anahtarı almanız gerekecek.</li>
 </ul>
 
+<h2>Google API Anahtarı Almak</h2>
+
+YouTube Data API v3 için bir API anahtarını almak için şu adımları izleyebilirsiniz:
+
+<ol>
+    <li><a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a> adresine gidin.</li>
+    <li>Google hesabınızla giriş yapın (veya yeni bir hesap oluşturun).</li>
+    <li>Yeni bir proje oluşturmak için "Select a Project" butonuna tıklayın ve "New Project" seçeneğini seçin.</li>
+    <li>Proje ismi girin ve "Create" butonuna tıklayın.</li>
+    <li>Sol menüdeki <strong>API & Services</strong> > <strong>Library</strong> sekmesine tıklayın.</li>
+    <li>Arama kutusuna <strong>YouTube Data API v3</strong> yazın ve çıkan sonuçlardan YouTube Data API v3'ü seçin.</li>
+    <li>"Enable" butonuna tıklayarak API'yi etkinleştirin.</li>
+    <li>Etkinleştirdikten sonra, <strong>API & Services</strong> > <strong>Credentials</strong> sekmesine gidin.</li>
+    <li>"Create Credentials" butonuna tıklayın ve "API key" seçeneğini seçin.</li>
+    <li>Yeni bir API anahtarı oluşturulacak ve ekranda görüntülenecektir. Bu anahtarı kopyalayın.</li>
+</ol>
+
+<p>API anahtarınızı aldıktan sonra, bu anahtarı aşağıdaki gibi <code>API_KEY</code> değişkenine ekleyin:</p>
+
+<pre><code>
+const API_KEY = 'API-KEY';  <!-- Buraya kendi API anahtarınızı ekleyin -->
+</code></pre>
+
 <h2>Kurulum</h2>
 
 <ol>
