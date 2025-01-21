@@ -1,106 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #444;
-        }
-        pre {
-            background: #f4f4f4;
-            padding: 10px;
-            border-radius: 5px;
-            overflow: auto;
-        }
-        code {
-            color: #c7254e;
-            background: #f9f2f4;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-        a {
-            color: #007acc;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>README - YouTube Video Detayları</title>
 </head>
 <body>
-    <div class="container">
-        <h1>YouTube Video Details Fetcher</h1>
 
-        <p>This project demonstrates how to fetch details of a YouTube video using the <strong>YouTube Data API v3</strong>. The script retrieves video information such as title, description, view count, and like count using a provided video ID.</p>
+<h1>YouTube Video Detayları Çekme</h1>
 
-        <h2>Features</h2>
+<p>Bu proje, YouTube API'si kullanarak bir video ID'sine ait bilgileri (başlık, açıklama, görüntülenme sayısı, beğeni sayısı) çeker ve konsola yazdırır.</p>
+
+<h2>Gereksinimler</h2>
+
+<ul>
+    <li>Node.js'in yüklü olması gerekmektedir.</li>
+    <li>Aşağıdaki bağımlılığın yüklenmesi gerekmektedir:
         <ul>
-            <li>Fetch video title</li>
-            <li>Retrieve description</li>
-            <li>Get view count</li>
-            <li>Fetch like count</li>
+            <li><code>axios</code> - HTTP isteklerini yapmak için kullanılır.</li>
         </ul>
+    </li>
+    <li>Google API Key gerekmektedir. YouTube Data API v3 için bir API anahtarı almanız gerekecek.</li>
+</ul>
 
-        <h2>Installation</h2>
-        <ol>
-            <li>Clone the repository:
-                <pre><code>git clone https://github.com/muhammederencennetkusu/youtube-video-details-fetcher.git</code></pre>
-            </li>
-            <li>Navigate to the project directory:
-                <pre><code>cd youtube-video-details-fetcher</code></pre>
-            </li>
-            <li>Install the required dependencies:
-                <pre><code>npm install</code></pre>
-            </li>
-        </ol>
+<h2>Kurulum</h2>
 
-        <h2>Usage</h2>
-        <p>Replace the <code>API_KEY</code> variable in <code>index.js</code> with your YouTube Data API key. If you don’t have one, you can obtain it from the <a href="https://console.developers.google.com/" target="_blank">Google Cloud Console</a>.</p>
+<ol>
+    <li>Projenin bulunduğu dizine gidin.</li>
+    <li>Gerekli bağımlılığı yüklemek için şu komutu çalıştırın:
+        <pre><code>npm install axios</code></pre>
+    </li>
+    <li>Google API anahtarınızı edinin ve <code>API_KEY</code> değişkenine yerleştirin.</li>
+    <li>Video ID'sini almak istediğiniz video ile değiştirin. Örneğin: <code>dQw4w9WgXcQ</code></li>
+</ol>
 
-        <h3>Example</h3>
-        <p>Edit the <code>videoId</code> variable in <code>index.js</code> with the YouTube video ID you want to fetch details for:</p>
-        <pre><code>const videoId = 'dQw4w9WgXcQ';</code></pre>
+<h2>Kullanım</h2>
 
-        <p>Run the script:</p>
-        <pre><code>node index.js</code></pre>
+Aşağıdaki komut ile YouTube videosunun detaylarını çekebilirsiniz:
 
-        <h2>Output</h2>
-        <p>The script will display the following information in the console:</p>
-        <ul>
-            <li>Video Title</li>
-            <li>Description</li>
-            <li>View Count</li>
-            <li>Like Count</li>
-        </ul>
+<pre><code>
+const axios = require('axios');
 
-        <h2>Dependencies</h2>
-        <ul>
-            <li><a href="https://www.npmjs.com/package/axios" target="_blank">axios</a>: For making HTTP requests</li>
-        </ul>
+const API_KEY = 'API-KEY';  <!-- Buraya kendi API anahtarınızı ekleyin -->
+const BASE_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
-        <h2>License</h2>
-        <p>This project is licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
+async function getVideoDetails(videoId) {
+  try {
+    const response = await axios.get(BASE_URL, {
+      params: {
+        id: videoId, 
+        part: 'snippet,contentDetails,statistics',
+        key: API_KEY,
+      },
+    });
 
-        <p>Happy coding!</p>
-    </div>
+    const videoData = response.data.items[0];
+
+    if (!videoData) {
+      console.log('Video bulunamadı.');
+      return;
+    }
+
+    console.log('Başlık:', videoData.snippet.title);
+    console.log('Açıklama:', videoData.snippet.description);
+    console.log('Görüntüleme Sayısı:', videoData.statistics.viewCount);
+    console.log('Beğeni Sayısı:', videoData.statistics.likeCount);
+  } catch (error) {
+    console.error('Hata:', error.message);
+  }
+}
+
+const videoId = 'dQw4w9WgXcQ';  <!-- Buraya sorgulamak istediğiniz video ID'sini girin -->
+getVideoDetails(videoId);
+</code></pre>
+
+<h2>Açıklamalar</h2>
+
+<ul>
+    <li><strong>videoId:</strong> YouTube video ID'sini burada belirtmelisiniz. Bu, video URL'sindeki son kısmıdır (örneğin: <code>dQw4w9WgXcQ</code>).</li>
+    <li><strong>API_KEY:</strong> Google API anahtarınızı buraya ekleyin. Bu anahtar, API ile etkileşime geçebilmek için gereklidir.</li>
+    <li><strong>axios:</strong> API'ye GET isteği yapmak için kullanılan kütüphane. İstek başarıyla tamamlandığında, video detayları konsola yazdırılır.</li>
+</ul>
+
+<h2>Yapılacaklar</h2>
+
+<ul>
+    <li>Video ID'lerini dinamik hale getirmek için kullanıcı girişi ekleyebilirsiniz.</li>
+    <li>İstenilen video verilerini daha detaylı şekilde işlemek veya farklı formatlarda (JSON gibi) çıktı almak için kodu geliştirebilirsiniz.</li>
+</ul>
+
 </body>
 </html>
